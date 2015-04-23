@@ -28,3 +28,7 @@ def listjoin(self, string=None):
         return "".join(self.map(str))
     else:
         return string.join(self.map(str))
+
+@curses(list, "toDict")
+def listodict(self):
+    return dict(self)
