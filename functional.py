@@ -11,7 +11,7 @@ def listfilter(self, fn):
     return filter(fn, self)
 
 @curses(list, "filterNot")
-def listfilter(self, fn):
+def listfilternot(self, fn):
     return filter(lambda x: not fn(x), self)
 
 
