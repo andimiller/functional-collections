@@ -21,6 +21,13 @@ def listzip(self, other):
 def listflatten(self):
     return list(chain.from_iterable(self))
 
+@curses(list, "mkString")
 @curses(list, "join")
-def listjoin(self, string):
+def listjoin(self, string=None):
+    if string == None:
+        return "".join(self.map(str))
+    else:
+        return string.join(self.map(str))
+
+
     return string.join(self)
