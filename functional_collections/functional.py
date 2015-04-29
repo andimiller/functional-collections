@@ -75,10 +75,6 @@ def listsum(self, *args):
 def listtotuple(self):
     return tuple(self)
 
-@curses(list, "toSet")
-def listset(self):
-    return set(self)
-
 @curses(list, "distinct")
 def listdistinct(self):
     return list(self.toSet())
@@ -185,8 +181,9 @@ def listmatch(self, d):
                 if isinstance(item, k):
                     v(item)
             # functions
-            elif k(item):
-                v(item)
+            elif isinstance(k, types.FunctionType):
+                if k(item):
+                    v(item)
 
 # TODO find a nicer way to get a reference to the generator class
 def _generator_class_finder():
