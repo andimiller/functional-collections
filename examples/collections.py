@@ -2,7 +2,7 @@ from __future__ import print_function
 __author__ = 'andi'
 
 if __name__=="__main__":
-	import functional
+	from functional_collections import *
 	# 1 to 10 mapped _*2, reduced on _+_
 	range(1,10).map(lambda x:x*2).reduce(lambda a,b: a+b)
 	# flatten a list and regroup it
@@ -37,3 +37,8 @@ if __name__=="__main__":
 			Bar: lambda x:print("I got a Bar")
 		}
 	)
+	# collect with type
+	r = ["foo", 42, Bar()].collect(lambda x:type(x))
+	print(r)
+	# collect with class
+	r = ["foo", 42, Bar()].collect()

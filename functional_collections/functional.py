@@ -15,7 +15,6 @@ def listfilter(self, fn):
 def listfilternot(self, fn):
     return filter(lambda x: not fn(x), self)
 
-
 @curses(list, "reduce")
 def listreduce(self, fn):
     return reduce(fn, self)
@@ -176,10 +175,16 @@ def listcollect(self, fn):
 @curses(list, "match")
 def listmatch(self, d):
     for item in self:
-        for k,v in d:
-            if k is types.TypeType:
-                if item is k:
+        for k,v in d.items():
+            # raw types
+            if isinstance(k, type):
+                if isinstance(item, k):
                     v(item)
+            # classes
+            elif isinstance(k, types.ClassType):
+                if isinstance(item, k):
+                    v(item)
+            # functions
             elif k(item):
                 v(item)
 
