@@ -169,21 +169,29 @@ def listcollect(self, fn):
 
 # takes a dictionary of function/type -> function, find the first matching key and run it's value
 @curses(list, "match")
-def listmatch(self, d):
+def listmatch(self, d, default=None, exhaustive=False):
+    if default == None:
+        if exhaustive:
+            def exhaustive_failure(item):
+                raise ValueError("Unable to match item %s" % item)
+            default = exhaustive_failure
+        else:
+            default = lambda x:x
     for item in self:
         for k,v in d.items():
             # raw types
-            if isinstance(k, type):
-                if isinstance(item, k):
-                    v(item)
+            if isinstance(k, type) and isinstance(item, k):
+                v(item)
             # classes
-            elif isinstance(k, types.ClassType):
-                if isinstance(item, k):
-                    v(item)
+            elif isinstance(k, types.ClassType) and isinstance(item, k):
+                v(item)
             # functions
-            elif isinstance(k, types.FunctionType):
-                if k(item):
-                    v(item)
+            elif isinstance(k, types.FunctionType) and k(item):
+                v(item)
+            # default
+            else:
+                default(item)
+
 
 @curses(types.GeneratorType, "toList")
 def generatortolist(self):

@@ -139,4 +139,12 @@ def test_list_match():
 		return n==3
 	[1,2,3,4,5].match({isthree: r.append})
 	assert(r == [3])
+	# exhaustive warnings
+	r = []
+	try:
+		[1,3].match({isthree: r.append}, exhaustive=True)
+		assert False, "Didn't throw exhaustive runtime error"
+	except ValueError as e:
+		assert(e.message == "Unable to match item 1")
+
 
