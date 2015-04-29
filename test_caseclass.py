@@ -39,3 +39,11 @@ def test_hashcode():
 	assert(i == i2)
 	assert(i != i3)
 
+def test_copy():
+	Cat = caseclass("Cat", [("name", basestring), ("age", int)])
+	c = Cat("Terry", 7)
+	# oh no terry actually just turned 8!
+	c1 = c.copy(age=8)
+	assert(c != c1)
+	assert(c.age == 7)
+	assert(c1.age == 8)
