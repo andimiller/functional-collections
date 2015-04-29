@@ -39,6 +39,13 @@ class {typename}(tuple):
             raise ValueError('Got unexpected field names: %r' % kwds.keys())
         return result
 
+    def copy(_self, **kwds):
+        'Return a new {typename} object replacing specified fields with new values'
+        result = _self._make(map(kwds.pop, {field_names!r}, _self))
+        if kwds:
+            raise ValueError('Got unexpected field names: %r' % kwds.keys())
+        return result
+
     def __getnewargs__(self):
         'Return self as a plain tuple.  Used by copy and pickle.'
         return tuple(self)
