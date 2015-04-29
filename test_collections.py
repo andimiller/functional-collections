@@ -74,6 +74,7 @@ def test_listfind():
 
 def test_listexists():
 	assert([1,2,3,"cat"].exists(lambda x:x=="cat") == True)
+	assert([1,2,3,"cat"].exists(lambda x:x=="dog") == False)
 
 def test_list_flatMap():
 	assert([(1,2),(3,4)].flatMap(lambda x:x*2) == [2,4,6,8])
@@ -92,6 +93,7 @@ def test_list_forall():
 
 def test_list_groupBy():
 	"TODO work out what this does"
+	assert([1,2,3].groupBy())
 
 def test_list_grouped():
 	assert(list([1,2,3,4,5,6].grouped(3)) == [[1,2,3],[4,5,6]])
@@ -115,6 +117,10 @@ def test_list_permutations():
 
 def test_list_reversed():
 	assert([1,2,3].reversed() == [3,2,1])
+
+def test_list_shuffle():
+	# TODO come up with a good way to test shuffle
+	assert([1,2,3].shuffle())
 
 def test_list_collect():
 	assert([1,2,3].collect(lambda x:x%2) == {0: [2], 1: [1, 3]})
