@@ -40,5 +40,4 @@ if __name__=="__main__":
 	# collect with type
 	r = ["foo", 42, Bar()].collect(lambda x:type(x))
 	print(r)
-	# collect with class
-	r = ["foo", 42, Bar()].collect()
+
