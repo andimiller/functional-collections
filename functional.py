@@ -1,6 +1,7 @@
 from forbiddenfruit import curses
 from itertools import chain, groupby, permutations, combinations
-from functools import partial
+import random
+import types
 
 @curses(list, "map")
 def listmap(self, fn):
@@ -108,6 +109,12 @@ def listfold(self, initial):
         return reduce(fn, self, initial)
     return innerfold
 
+@curses(list, "foldLeft")
+def listfoldleft(self, initial):
+    def innerfold(fn):
+        return reduce(fn, self.reversed(), initial)
+    return innerfold
+
 @curses(list, "forall")
 def listforall(self, fn):
     for item in self:
@@ -122,8 +129,8 @@ def listgroupby(self, *args):
 @curses(list, "grouped")
 def listgrouped(self, size):
     for i in range(0, len(self), size):
-        v = self[i:i+n]
-        if len(v) == n:
+        v = self[i:i+size]
+        if len(v) == size:
             yield v
 
 @curses(list, "intersect")
@@ -149,3 +156,38 @@ def listpermutations(self, *a):
 @curses(list, "reversed")
 def listreversed(self):
     return self[::-1]
+
+@curses(list, "shuffle")
+def listshuffle(self):
+    n = list(self)
+    random.shuffle(n)
+    return n
+
+from collections import defaultdict
+
+@curses(list, "collect")
+def listcollect(self, fn):
+    r = defaultdict(list)
+    for item in self:
+        r[fn(item)].append(item)
+    return r
+
+# takes a dictionary of function/type -> function, find the first matching key and run it's value
+@curses(list, "match")
+def listmatch(self, d):
+    for item in self:
+        for k,v in d:
+            if k is types.TypeType:
+                if item is k:
+                    v(item)
+            elif k(item):
+                v(item)
+
+# TODO find a nicer way to get a reference to the generator class
+def _generator_class_finder():
+    yield 1
+generator = _generator_class_finder().__class__
+
+@curses(generator, "toList")
+def generatortolist(self):
+    return list(self)
