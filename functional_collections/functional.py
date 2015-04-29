@@ -185,11 +185,6 @@ def listmatch(self, d):
                 if k(item):
                     v(item)
 
-# TODO find a nicer way to get a reference to the generator class
-def _generator_class_finder():
-    yield 1
-generator = _generator_class_finder().__class__
-
-@curses(generator, "toList")
+@curses(types.GeneratorType, "toList")
 def generatortolist(self):
     return list(self)
