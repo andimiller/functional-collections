@@ -1,2 +1,2 @@
 test:
-	py.test test_*
+	py.test .
