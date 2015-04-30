@@ -87,3 +87,65 @@ Take the numbers 1 to 100, filter on multiples of 7, multiply by 42, shuffle, gr
 '14702352470452926174'
 ```
 
+## Okay I can get behind the left-to-right composition stuff, but what do I store my data in? classes?
+
+Introducing caseclass, my extension of the python namedtuple to add typesafety and a couple of extra features.
+
+It's (kind of) type-safe, (mostly) immutable, and (sometimes) easy to work with!
+
+### Typical Data Record Code
+
+#### Classic Python
+```python
+>>> class Cat:
+...     name = None
+...     age = None
+...     def __init__(self, name, age):
+...             assert(isinstance(name, basestring))
+...             assert(isinstance(age, int))
+...             self.name = name
+...             self.age = age
+...
+```
+
+#### Functional Python
+```python
+>>> Cat = caseclass("Cat", [("name", basestring), ("age", int)])
+```
+
+### Boy that sure looks like a lot less code, what else does it do?
+
+#### nice strings if you print them!
+
+`Cat(name='Terry', age=7)` vs `<__main__.Cat instance at 0x101012170>`
+
+#### free hash function and comparisons!
+
+```python
+>>> Cat("Terry", 7) == Cat("Terry", 7)
+True
+```
+
+#### transform lists of tuples/dicts into objects with minimum hastle!
+
+```python
+>>> [("Terry", 7), ("Bob", 5), ("Marge", 2)].map(Cat._make)
+[Cat(name='Terry', age=7), Cat(name='Bob', age=5), Cat(name='Marge', age=2)]
+```
+
+#### immutable copy function!
+
+```python
+>>> bob = Cat("Bob", 7)
+>>> # oh no, bob is 8, not 7!
+>>> bob = bob.copy(age=8)
+>>> bob
+Cat(name='Bob', age=8)
+```
+
+#### transform objects back into tuples/dicts for ease of use!
+
+```python
+>>> [("Terry", 7), ("Bob", 5), ("Marge", 2)].map(Cat._make).sorted(key=lambda x:x.age).map(tuple)
+[('Marge', 2), ('Bob', 5), ('Terry', 7)]
+```
