@@ -115,6 +115,16 @@ It's (kind of) type-safe, (mostly) immutable, and (sometimes) easy to work with!
 
 ### Boy that sure looks like a lot less code, what else does it do?
 
+#### acts like a tuple and object at the same time!
+
+```python
+>>> bob = Cat("Bob", 8)
+>>> bob.age
+8
+>>> bob[1]
+8
+```
+
 #### nice strings if you print them!
 
 `Cat(name='Terry', age=7)` vs `<__main__.Cat instance at 0x101012170>`
