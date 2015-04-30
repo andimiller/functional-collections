@@ -130,8 +130,8 @@ def test_list_match():
 	# types
 	r = []
 	i = []
-	["foo", 42, 57.1].match({int: i.append, string_types: r.append})
-	# assert(r == ["foo"])
+	["foo", 42, 57.1].match({int: i.append, string_types[0]: r.append})
+	assert(r == ["foo"])
 	assert(i == [42])
 	# classes
 	class F:
