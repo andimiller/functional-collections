@@ -219,6 +219,7 @@ def listfoldleft(self, initial):
         return reduce(fn, self.reversed(), initial)
     return innerfold
 
+@curses(list, "forAll")
 @curses(list, "forall")
 def listforall(self, fn):
     """
