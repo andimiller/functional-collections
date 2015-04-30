@@ -11,9 +11,9 @@ You get all the basic building blocks to help you express monadic transforms in 
 ### So which wrappers does this even include?
 
 * transforms: map, flatMap
-* filters: filter, filterNot, distinct, intersect, find, exists, min, max
+* filters: filter, filterNot, distinct, intersect
 * ordering tools: sorted, reversed, shuffle 
-* reducers: reduce, fold, foldLeft, foldRight, join, mkString, forAll, sum
+* reducers: reduce, fold, foldLeft, foldRight, join, mkString, forAll, sum, find, exists, min, max
 * shaping tools: zip, flatten, groupBy, grouped, collect, enumerate, combinations, permutations, collect, match
 * utilities: empty, nonEmpty, toSet, toDict, toTuple, iter
 
