@@ -1,6 +1,7 @@
 __author__ = 'andi'
 
 from functional_collections import *
+from six import string_types
 
 def test_empty_class():
 	caseclass("Empty", [])
@@ -13,7 +14,7 @@ def test_basic_types():
 		i2 = IntWrapper("not an int")
 		assert False, "didn't throw the correct exception"
 	except TypeError as e:
-		assert e.message == "i must be of type int"
+		assert e.args[0] == "i must be of type int"
 
 class FooInt():
 	def __init__(self, i):
@@ -27,7 +28,7 @@ def test_class_types():
 		i2 = FooIntWrapper("not an int")
 		assert False, "didn't throw the correct exception"
 	except TypeError as e:
-		assert e.message == "i must be of type FooInt"
+		assert e.args[0] == "i must be of type FooInt"
 
 test_class_types()
 
@@ -40,7 +41,7 @@ def test_hashcode():
 	assert(i != i3)
 
 def test_copy():
-	Cat = caseclass("Cat", [("name", basestring), ("age", int)])
+	Cat = caseclass("Cat", [("name", string_types[0]), ("age", int)])
 	c = Cat("Terry", 7)
 	# oh no terry actually just turned 8!
 	c1 = c.copy(age=8)

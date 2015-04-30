@@ -1,7 +1,9 @@
 from forbiddenfruit import curses
 from itertools import chain, groupby, permutations, combinations
+from functools import reduce
 import random
 import types
+import six
 
 @curses(list, "map")
 def listmap(self, fn):
@@ -10,7 +12,7 @@ def listmap(self, fn):
     :param fn: transform to apply to the list
     :return: new list with the transform applied
     """
-    return map(fn, self)
+    return list(map(fn, self))
 
 @curses(list, "filter")
 def listfilter(self, fn):
@@ -19,7 +21,7 @@ def listfilter(self, fn):
     :param fn: filter to apply to the list
     :return: new list with the filter applied
     """
-    return filter(fn, self)
+    return list(filter(fn, self))
 
 @curses(list, "filterNot")
 def listfilternot(self, fn):
@@ -28,7 +30,7 @@ def listfilternot(self, fn):
     :param fn: inverse filter to apply to the list
     :return: new list with the inverse filter applied
     """
-    return filter(lambda x: not fn(x), self)
+    return list(filter(lambda x: not fn(x), self))
 
 @curses(list, "reduce")
 def listreduce(self, fn):
@@ -46,7 +48,7 @@ def listzip(self, *args):
     :param args: iterable to zip onto the list zip is being called on
     :return: result of zipping the two iterables
     """
-    return zip(self, *args)
+    return list(zip(self, *args))
 
 @curses(list, "flatten")
 def listflatten(self):
@@ -362,7 +364,7 @@ def listmatch(self, d, default=None, exhaustive=False):
             if isinstance(k, type) and isinstance(item, k):
                 v(item)
             # classes
-            elif isinstance(k, types.ClassType) and isinstance(item, k):
+            elif isinstance(k, six.class_types) and isinstance(item, k):
                 v(item)
             # functions
             elif isinstance(k, types.FunctionType) and k(item):

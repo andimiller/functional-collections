@@ -1,4 +1,6 @@
+from __future__ import print_function
 from collections import _iskeyword, _itemgetter, OrderedDict, _sys
+from six import exec_
 ################################################################################
 ### namedtypedtuple, based on namedtuple from the python standard library
 ################################################################################
@@ -34,14 +36,14 @@ class {typename}(tuple):
 
     def _replace(_self, **kwds):
         'Return a new {typename} object replacing specified fields with new values'
-        result = _self._make(map(kwds.pop, {field_names!r}, _self))
+        result = _self._make(list(map(kwds.pop, {field_names!r}, _self)))
         if kwds:
             raise ValueError('Got unexpected field names: %r' % kwds.keys())
         return result
 
     def copy(_self, **kwds):
         'Return a new {typename} object replacing specified fields with new values'
-        result = _self._make(map(kwds.pop, {field_names!r}, _self))
+        result = _self._make(list(map(kwds.pop, {field_names!r}, _self)))
         if kwds:
             raise ValueError('Got unexpected field names: %r' % kwds.keys())
         return result
@@ -97,8 +99,8 @@ def namedtypedtuple(typename, field_names_and_types, verbose=False, rename=False
 	# message or automatically replace the field name with a valid name.
 	if not isinstance(field_names_and_types, list):
 		pass
-	field_names = map(lambda n: str(n[0]), field_names_and_types)
-	field_types = map(lambda n: n[1], field_names_and_types)
+	field_names = list(map(lambda n: str(n[0]), field_names_and_types))
+	field_types = list(map(lambda n: n[1], field_names_and_types))
 	if rename:
 		seen = set()
 		for index, name in enumerate(field_names):
@@ -129,7 +131,8 @@ def namedtypedtuple(typename, field_names_and_types, verbose=False, rename=False
 			raise ValueError('Encountered duplicate field name: %r' % name)
 		seen.add(name)
 
-	field_types_names = map(lambda x:x.__name__, field_types)
+	print(map(dir, field_types))
+	field_types_names = list(map(lambda x:x.__name__, field_types))
 	# Fill-in the class template
 	class_definition = _class_template.format(
 		typename = typename,
@@ -145,7 +148,7 @@ def namedtypedtuple(typename, field_names_and_types, verbose=False, rename=False
 								for name, type in zip(field_names, field_types_names))
 	)
 	if verbose:
-		print class_definition
+		print(class_definition)
 
 	namespace = {}
 	# Add the types to the namespace
@@ -157,7 +160,7 @@ def namedtypedtuple(typename, field_names_and_types, verbose=False, rename=False
 					 OrderedDict=OrderedDict, _property=property, _tuple=tuple)
 	namespace.update(_namespace)
 	try:
-		exec class_definition in namespace
+		exec_(class_definition, namespace)
 	except SyntaxError as e:
 		raise SyntaxError(e.message + ':\n' + class_definition)
 	result = namespace[typename]

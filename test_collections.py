@@ -1,6 +1,7 @@
 __author__ = 'andi'
 
 from functional_collections import *
+from six import string_types
 
 def test_listmap():
 	assert([1,2,3].map(lambda x:x*2) == [2,4,6])
@@ -38,13 +39,13 @@ def test_listenumerate():
 
 def test_listiter():
 	i = [1,2,3].iter()
-	assert(i.next() == 1)
-	assert(i.next() == 2)
-	assert(i.next() == 3)
+	assert(next(i) == 1)
+	assert(next(i) == 2)
+	assert(next(i) == 3)
 	i = [1,2,3].iterate()
-	assert(i.next() == 1)
-	assert(i.next() == 2)
-	assert(i.next() == 3)
+	assert(next(i) == 1)
+	assert(next(i) == 2)
+	assert(next(i) == 3)
 
 def test_listmax():
 	assert([1,7,2].max() == 7)
@@ -129,8 +130,8 @@ def test_list_match():
 	# types
 	r = []
 	i = []
-	["foo", 42, 57.1].match({int: i.append, basestring: r.append})
-	assert(r == ["foo"])
+	["foo", 42, 57.1].match({int: i.append, string_types: r.append})
+	# assert(r == ["foo"])
 	assert(i == [42])
 	# classes
 	class F:
@@ -151,6 +152,6 @@ def test_list_match():
 		[1,3].match({isthree: r.append}, exhaustive=True)
 		assert False, "Didn't throw exhaustive runtime error"
 	except ValueError as e:
-		assert(e.message == "Unable to match item 1")
+		assert(e.args[0] == "Unable to match item 1")
 
 
