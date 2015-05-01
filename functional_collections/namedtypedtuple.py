@@ -131,7 +131,6 @@ def namedtypedtuple(typename, field_names_and_types, verbose=False, rename=False
 			raise ValueError('Encountered duplicate field name: %r' % name)
 		seen.add(name)
 
-	print(map(dir, field_types))
 	field_types_names = list(map(lambda x:x.__name__, field_types))
 	# Fill-in the class template
 	class_definition = _class_template.format(
