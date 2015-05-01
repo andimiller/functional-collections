@@ -32,7 +32,8 @@ def test_hyperduck_stats():
 	result = multiply_int_by_2(Dog("Matthew", 13))
 	assert(result == 26)
 
-	print get_hyperduck_stats(multiply_int_by_2)
+	stats = get_hyperduck_stats(multiply_int_by_2)
+	assert(stats.transformed == 1)
 
 
 if __name__ == "__main__":
