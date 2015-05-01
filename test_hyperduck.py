@@ -36,6 +36,17 @@ def test_hyperduck_stats():
 	assert(stats.transformed == 1)
 
 
+def test_hyperduck_failure():
+	@takes(list)
+	def typeof(thing):
+		return type(True)
+
+	assert(typeof(True) == bool)
+
+	stats = get_hyperduck_stats(typeof)
+	assert(stats.failed == 1)
+
 if __name__ == "__main__":
 	test_hyperduck()
 	test_hyperduck_stats()
+	test_hyperduck_failure()
