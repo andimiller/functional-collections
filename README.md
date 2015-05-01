@@ -178,4 +178,6 @@ This module allows you to register implicit type conversions and automatically c
 ...
 >>> multiply_int_by_2(Dog("Matthew", 13))
 26
+>>> get_hyperduck_stats(multiply_int_by_2)
+HyperduckStats(transformed=1, failed=0, passthrough=0)
 ```
