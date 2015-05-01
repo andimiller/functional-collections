@@ -159,3 +159,23 @@ Cat(name='Bob', age=8)
 >>> [("Terry", 7), ("Bob", 5), ("Marge", 2)].map(Cat._make).sorted(key=lambda x:x.age).map(tuple)
 [('Marge', 2), ('Bob', 5), ('Terry', 7)]
 ```
+
+## Hyperduck
+
+*If I can find a way to make it quack then it's a duck*
+
+This module allows you to register implicit type conversions and automatically cast all arguments to a function to match a desired function signature.
+
+```python
+>>> Dog = caseclass("Dog", [("name", str), ("age", int)])
+>>> @implicit(Dog, int)
+... def dog2int(d):
+...     return d.age
+...
+>>> @takes(int)
+... def multiply_int_by_2(i):
+...     return i*2
+...
+>>> multiply_int_by_2(Dog("Matthew", 13))
+26
+```
