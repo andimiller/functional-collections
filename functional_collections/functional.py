@@ -5,6 +5,15 @@ import random
 import types
 import six
 
+@curses(object, "pipe")
+def thrush(self, fn):
+    return fn(self)
+
+@curses(object, "tap")
+def tap(self, fn):
+    fn(self)
+    return self
+
 @curses(list, "map")
 def listmap(self, fn):
     """

@@ -1,6 +1,6 @@
 # Functional Python Utilities
 
-## Functional Collection Extensions 
+## Functional Collection Extensions
 
 *TL;DR: this library lets you write transforms left to right in stead of wrapping stuff in brackets and writing right to left*
 
@@ -12,7 +12,7 @@ You get all the basic building blocks to help you express monadic transforms in 
 
 * transforms: map, flatMap
 * filters: filter, filterNot, distinct, intersect
-* ordering tools: sorted, reversed, shuffle 
+* ordering tools: sorted, reversed, shuffle
 * reducers: reduce, fold, foldLeft, foldRight, join, mkString, forAll, sum, find, exists, min, max
 * shaping tools: zip, flatten, groupBy, grouped, collect, enumerate, combinations, permutations, collect, match
 * utilities: empty, nonEmpty, toSet, toDict, toTuple, iter
@@ -59,7 +59,7 @@ Range from 0 to 10, filter on even numbers, multiply by 3, add together with red
 60
 ```
 
-### Expert Example: stupidly long pipeline with a lot of transforms 
+### Expert Example: stupidly long pipeline with a lot of transforms
 
 Take the numbers 1 to 100, filter on multiples of 7, multiply by 42, shuffle, group into sets of 2, sum the sublists, remove duplicates, sort, fold into a string
 
@@ -158,6 +158,18 @@ Cat(name='Bob', age=8)
 ```python
 >>> [("Terry", 7), ("Bob", 5), ("Marge", 2)].map(Cat._make).sorted(key=lambda x:x.age).map(tuple)
 [('Marge', 2), ('Bob', 5), ('Terry', 7)]
+```
+
+## Combinators
+
+This now includes implementations of the T (Thrush) and K (Kestrel) combinators, which patch themselves onto all objects, allowing you to use `pipe` and `tap` on any object
+
+Note: you will need to wrap integers in brackets if you're starting off on a literal integer, because `2.` is a valid float in python for some reason!
+
+```python
+>>> (2).pipe(lambda x:x*2).tap(print).pipe(lambda x:x*2)
+4
+8
 ```
 
 ## Hyperduck
