@@ -11,10 +11,10 @@ class Option(object):
         return Option(None)
 
     def __init__(self, x):
-	self.value = x
+    self.value = x
 
     def map(self, fn):
-	if self.value != None:
+    if self.value != None:
             return Option(fn(self.value))
         else:
             return Option(None)
@@ -26,20 +26,20 @@ class Option(object):
         return self.value != None
 
     def getOrElse(self, f):
-	if self.value != None:
+    if self.value != None:
             return self.value
         else:
             return f
 
     def flatten(self):
         assert(isinstance(self.value, Option))
-	return self.value
+    return self.value
 
     def flatMap(self, fn):
-	return self.map(fn).flatten()
+    return self.map(fn).flatten()
 
     def filter(self, fn):
-	if self.value == None:
+    if self.value == None:
             return Option(None)
         else:
             if fn(self.value):
@@ -51,7 +51,7 @@ class Option(object):
         return self.map(lambda x:"Some("+str(x)+")").getOrElse("None")
 
     def __repr__(self):
-	return self.map(lambda x:"Some("+x.__repr__()+")").getOrElse("None")
+        return self.map(lambda x:"Some("+x.__repr__()+")").getOrElse("None")
 
 @curses(object, "wrapOption")
 def wrapOption(self):
