@@ -1,6 +1,6 @@
 from forbiddenfruit import curses
 from itertools import chain, groupby, permutations, combinations
-from functools import reduce
+from functools import reduce, wraps
 import random
 import types
 import six
@@ -65,6 +65,20 @@ def thrush(self, fn):
 def tap(self, fn):
     fn(self)
     return self
+
+@curses(type(tap), "andThen")
+def andThen(f, g):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        return g(f(*args, **kwargs))
+    return wrapper
+
+@curses(type(tap), "compose")
+def compose(g, f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        return g(f(*args, **kwargs))
+    return wrapper
 
 @curses(list, "map")
 def listmap(self, fn):
